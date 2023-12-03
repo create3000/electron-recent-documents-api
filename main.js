@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, Menu } = require('electron')
 const fs = require('node:fs')
 const path = require('node:path')
 
@@ -11,11 +11,33 @@ function createWindow () {
   win.loadFile('index.html')
 }
 
+function createMenu ()
+{
+  const menu = Menu .buildFromTemplate ([
+    {
+       role: "fileMenu",
+       submenu: [
+          {
+             role: "recentDocuments",
+             submenu: [
+                {
+                   role: "clearRecentDocuments",
+                },
+             ],
+          },
+       ],
+    }
+  ]);
+
+  Menu .setApplicationMenu (menu);
+}
+
 const fileName = 'recently-used.md'
 fs.writeFile(fileName, 'Lorem Ipsum', () => {
   app.addRecentDocument(path.join(__dirname, fileName))
 })
 
+app.whenReady().then(createMenu)
 app.whenReady().then(createWindow)
 
 app.on('window-all-closed', () => {
