@@ -15,6 +15,10 @@ function createMenu ()
 {
   const menu = Menu .buildFromTemplate ([
     {
+      role: "appMenu",
+      label: "Recent Document API Test",
+    },
+    {
        role: "fileMenu",
        submenu: [
           {
